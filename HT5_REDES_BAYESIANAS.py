@@ -78,6 +78,12 @@ sns.pairplot(data[['SalePrice', 'LotArea', 'TotalBsmtSF',
 plt.show()
 
 # %%
+plt.subplots(figsize=(8, 8))
+sns.heatmap(data[['SalePrice', 'LotArea', 'TotalBsmtSF',
+                  'GrLivArea', 'TotRmsAbvGrd', 'OverallQual']].corr(), annot=True, fmt="f").set_title("Correlación de las variables numéricas de Iris")
+
+
+# %%
 # NORMALIZAMOS DATOS
 if 'Neighborhood' in data.columns:
     usefullAttr.remove('Neighborhood')
@@ -117,13 +123,21 @@ print(data[data['cluster'] == 2].describe().transpose())
 # %%
 # Clasificacion de casas en: Economias, Intermedias o Caras.
 data.fillna(0)
-limit1 = data.query('cluster == 0')['SalePrice'].mean()
-limit2 = data.query('cluster == 1')['SalePrice'].mean()
+# limit1 = data.query('cluster == 0')['SalePrice'].mean()
+# limit2 = data.query('cluster == 1')['SalePrice'].mean()
+
+minPrice = data['SalePrice'].min()
+maxPrice = data['SalePrice'].max()
+division = (maxPrice - minPrice) / 3
 data['Clasificacion'] = data['LotArea']
-data.loc[data['SalePrice'] < limit1, 'Clasificacion'] = 'Economica'
-data.loc[(data['SalePrice'] >= limit1) & (
-    data['SalePrice'] < limit2), 'Clasificacion'] = 'Intermedia'
-data.loc[data['SalePrice'] >= limit2, 'Clasificacion'] = 'Caras'
+# data.loc[data['SalePrice'] < limit1, 'Clasificacion'] = 'Economica'
+# data.loc[(data['SalePrice'] >= limit1) & (
+#     data['SalePrice'] < limit2), 'Clasificacion'] = 'Intermedia'
+# data.loc[data['SalePrice'] >= limit2, 'Clasificacion'] = 'Caras'
+
+data['Clasificacion'][data['SalePrice'] < minPrice + division] = 'Economica'
+data['Clasificacion'][data['SalePrice'] >= minPrice + division] = 'Intermedia'
+data['Clasificacion'][data['SalePrice'] >= minPrice + division * 2] = 'Caras'
 
 # %% [markdown]
 # #### Contamos la cantidad de casas por clasificacion
