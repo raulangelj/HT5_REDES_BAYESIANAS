@@ -179,12 +179,16 @@ X_test.info()
 
 # %%
 gaussian = GaussianNB()
-gaussian.fit(X_train, y_train)
+modelo = gaussian.fit(X_train, y_train)
 
 # %% [markdown]
 # ## 3. El modelo debe ser de clasificación, use la variable categórica que hizo con el precio de las casas (barata, media y cara) como variable respuesta.
 # %%
 y_pred = gaussian.predict(X_test)
+pred = list(y_pred)
+print('Economicas', pred.count('Economica'))
+print('Intermedias', pred.count('Intermedia'))
+print('Caras', pred.count('Caras'))
 # %% [markdown]
 # ## 4. Utilice  el  modelo  con  el  conjunto  de  prueba  y  determine  la  eficiencia  del  algoritmo  para clasificar.
 # %%
@@ -198,8 +202,29 @@ print('Accuracy: ', accuracy)
 
 cm = confusion_matrix(y_test, y_pred)
 print('Confusion matrix for Naive Bayes\n', cm)
+graf = sns.heatmap(cm, annot=True, cmap='Blues')
+graf.set_title('Matriz de confusion\n\n');
+graf.set_xlabel('\nPredicted Values')
+graf.set_ylabel('Actual Values ');
+plt.show()
+p2 = """
+Los resultados a los que llegamos al elaborar y analizar
+la matriz de confusion utilizando el conjunto de
+entrenamiento, son que la precision de la clasificacion
+cuenta con alta efectividad
+"""
+print(p2)
 # %% [markdown]
 # ## 6. Analice el modelo. Explique si hay sobreajuste (overfitting) o no.
+print(accuracy)
+p6 = """
+Para ver si existe sobreajuste o no, es necesario ver
+el puntaje de Gauss obtenido, el cual es de 0.96, este
+valor es algo elevado, pero al no ser tan cercano a 1
+como lo es 0.99, podemos decir que  no hay sobreajuste en
+el modelo
+"""
+print(p6)
 # %% [markdown]
 # ## 7. Haga  un  modelo  usando  validación  cruzada,  compare  los  resultados  de  este  con  los  del modelo anterior. ¿Cuál funcionó mejor?
 # %% [markdown]
