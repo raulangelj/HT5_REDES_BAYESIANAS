@@ -234,15 +234,16 @@ print("Score del modelo en general:", score)
 #Usando KFolds
 kf = KFold(n_splits=10)
 scores = cross_val_score(gaussian, X_train, y_train, cv=kf, scoring="accuracy")
-print("Metricas de la validacion cruzada:", scores)
-print("Resultado de la validacion cruzada:", scores.mean())
+print("KFolds: Metricas de la validacion cruzada:", scores)
+print("KFolds: Resultado de la validacion cruzada:", scores.mean())
 
 #Usando StratifiedKFolds
 skf = StratifiedKFold(n_splits=10)
 scores = cross_val_score(gaussian, X_train, y_train, cv=skf, scoring="accuracy")
-print("Metricas de la validacion cruzada:", scores)
-print("Resultado de la validacion cruzada:", scores.mean())
+print("StratifiedKFolds: Metricas de la validacion cruzada:", scores)
+print("StratifiedKFolds: Resultado de la validacion cruzada:", scores.mean())
 
+print("Dado el resultado se puede observar que el que mejor funcionó fue el de KFolds luego le sigue StratifiedKFolds y por último el modelo general.")
 # %% [markdown]
 # ## 8. Compare la eficiencia del algoritmo con el resultado obtenido con el árbol de decisión (el de clasificación). ¿Cuál es mejor para predecir? ¿Cuál se demoró más en procesar?
 #Modelo de árbol de decisión
@@ -251,3 +252,4 @@ arbol = arbol.fit(X_train, y_train)
 score = arbol.score(X_train, y_train)
 
 print("Score arbol de decision:", score)
+print("Se puede concluir que dado el score 1 el mejor fue el árbol de desición.")
