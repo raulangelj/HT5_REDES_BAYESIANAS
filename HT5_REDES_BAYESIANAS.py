@@ -30,7 +30,7 @@ from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold, KFold
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from scipy.stats import normaltest
@@ -227,5 +227,27 @@ el modelo
 print(p6)
 # %% [markdown]
 # ## 7. Haga  un  modelo  usando  validación  cruzada,  compare  los  resultados  de  este  con  los  del modelo anterior. ¿Cuál funcionó mejor?
+#Score modelo general
+score = gaussian.score(X_train, y_train)
+
+print("Score del modelo en general:", score)
+#Usando KFolds
+kf = KFold(n_splits=10)
+scores = cross_val_score(gaussian, X_train, y_train, cv=kf, scoring="accuracy")
+print("Metricas de la validacion cruzada:", scores)
+print("Resultado de la validacion cruzada:", scores.mean())
+
+#Usando StratifiedKFolds
+skf = StratifiedKFold(n_splits=10)
+scores = cross_val_score(gaussian, X_train, y_train, cv=skf, scoring="accuracy")
+print("Metricas de la validacion cruzada:", scores)
+print("Resultado de la validacion cruzada:", scores.mean())
+
 # %% [markdown]
 # ## 8. Compare la eficiencia del algoritmo con el resultado obtenido con el árbol de decisión (el de clasificación). ¿Cuál es mejor para predecir? ¿Cuál se demoró más en procesar?
+#Modelo de árbol de decisión
+arbol = DecisionTreeClassifier(max_depth=4, random_state=42) 
+arbol = arbol.fit(X_train, y_train) 
+score = arbol.score(X_train, y_train)
+
+print("Score arbol de decision:", score)
